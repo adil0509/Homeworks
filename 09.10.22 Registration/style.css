@@ -1,0 +1,38 @@
+.first-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 250px;
+}
+
+.helper{
+    display: flex;
+    justify-content: space-around;
+    width: 250px;
+}
+
+.search{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.inp{
+    width: 250px;
+}
+
+.but{
+    width: 100px;
+}
+
+table{
+    /* border: 2px solid black; */
+    border-collapse: collapse;
+}
+
+.searchUser{
+    margin-top: 20px;
+}
+
+.users-list{
+    margin-top: 20px;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>Main Page</h1>
+    Name: <p id="name"></p>
+    Surname: <p id="surname"></p>
+    Age: <p id="age"></p>
+
+    <button onclick="logOut()" class="but">Logout</button>
+    <button onclick="deleteAcc()" class="but">Delete Acc</button>
+
+    <div class="search">
+        <input type="text" placeholder="search" id="search" class="inp">
+        <button onclick="searchUser()" class="but">Search</button>
+    </div>
+
+    <table class="users-list">
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Age</th>
+        </tr>
+    </table>
+
+    <script>
+        if(!localStorage.getItem("currentUser")) {
+            window.location.href = 'login.html'
+        }
+        getCurrentUser()
+        getOtherUsers()
+        function getCurrentUser() {
+            let currentUser = JSON.parse(localStorage.getItem("currentUser")) 
+            let nameEl = document.querySelector("#name")
+            nameEl.textContent = currentUser.name
+            let surnameEl = document.querySelector("#surname")
+            surnameEl.textContent = currentUser.surname 
+            let ageEl = document.querySelector("#age")
+            ageEl.textContent = currentUser.age       
+        }
+
+        function logOut() {
+            localStorage.removeItem("currentUser")
+            window.location.href = 'login.html'
+        }
+
+        function deleteAcc() {
+            let users = JSON.parse(localStorage.getItem("users"))
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"))
+            localStorage.setItem("users", JSON.stringify(
+                users.filter(user => user.email != currentUser.email)
+            ))
+            logOut()
+        }
+
+        function getOtherUsers(){
+            let users = JSON.parse(localStorage.getItem("users"), function (key, value){
+                if (key == "password") return undefined;
+                return value;
+            })
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            let otherUsers = users.filter(user => user.email != currentUser.email);
+            
+            let listElement = document.querySelector(".users-list")
+            otherUsers.forEach((element, index) => {
+                listElement.innerHTML += `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${element.email}</td>
+                    <td>${element.surname}</td>
+                    <td>${element.name}</td>
+                    <td>${element.age}</td>
+                </tr>`    
+                
+            })
+        }
+
+        function searchUser(){
+            let users = JSON.parse(localStorage.getItem("users"))
+            let findUser = document.querySelector("currentUser")
+            
+            let otherUsers = users.filter(user => user.name == findUser.value);
+            
+            let listElement = document.querySelector(".searchUser")
+            otherUsers.forEach((element, index) => {
+                listElement.innerHTML += `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${element.email}</td>
+                    <td>${element.surname}</td>
+                    <td>${element.name}</td>
+                    <td>${element.age}</td>
+                </tr>`    
+                
+            })
+
+        }
+    </script>
+</body>
+</html>
